@@ -28,32 +28,8 @@ class LoginController
                     'exp' => time() + (60 * 60 * 24)
                 ];
                 $token = JWT::encode($payload, $token, 'HS256');
-                $query = $pdo->prepare('INSERT INTO tokens (token, user_id) VALUES (:token, :user_id)');
 
-                // VERIFY IF TOKEN ALREADY EXISTS AND IF IT IS VALID
-                $verifyQuery = $pdo->prepare('SELECT * FROM tokens WHERE user_id = :user_id');
-                $verifyQuery->execute([
-                    'user_id' => $user['id']
-                ]);
-                $verifyToken = $verifyQuery->fetch(\PDO::FETCH_ASSOC);
-                if($verifyToken)
-                {
-                    $decodedToken = JWT::decode($verifyToken['token'], new Key(GetJWTSecret::getJWTSecret(), 'HS256'));
-                    if($decodedToken)
-                    {
-                        echo json_encode([
-                            'token' => $verifyToken['token']
-                        ]);
-                        http_response_code(200);
-                        return;
-                    }
-                }
-                // END OF VERIFY
-
-                if($query->execute([
-                    'token' => $token,
-                    'user_id' => $user['id']
-                ]))
+                if($token)
                 {
                     echo json_encode([
                         'token' => $token

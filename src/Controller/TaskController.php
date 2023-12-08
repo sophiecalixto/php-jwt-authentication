@@ -22,16 +22,11 @@ class TaskController
         $token = $_SERVER['HTTP_AUTHORIZATION'];
         $token = str_replace('Bearer ', '', $token);
         $pdo = PDOConnection::getConnection();
-        $query = $pdo->prepare('SELECT * FROM tokens WHERE token = :token');
-        $query->execute([
-            'token' => $token
-        ]);
-        $token = $query->fetch(\PDO::FETCH_ASSOC);
 
         if($token)
         {
             $key = GetJWTSecret::getJWTSecret();
-            $decodedToken = JWT::decode($token['token'], new Key($key, 'HS256'));
+            $decodedToken = JWT::decode($token, new Key($key, 'HS256'));
             $id = $decodedToken->sub;
             $query = $pdo->prepare('SELECT * FROM tasks WHERE user_id = :user_id');
             $query->execute([
