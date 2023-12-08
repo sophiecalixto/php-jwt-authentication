@@ -1,0 +1,21 @@
+{
+  "name": "sophiecalixto/jwt-auth-api",
+  "description": "Study project using JWT",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Sophie Calixto",
+      "email": "sophiecalixto2004@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "SophieCalixto\\JWTAuthAPI\\": "src/"
+    }
+  },
+  "scripts": {
+  },
+  "require": {
+    "ext-pdo": "*"
+  }
+}
