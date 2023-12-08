@@ -38,7 +38,6 @@ class LoginController
                 $verifyToken = $verifyQuery->fetch(\PDO::FETCH_ASSOC);
                 if($verifyToken)
                 {
-                    $headers = ['HS256'];
                     $decodedToken = JWT::decode($verifyToken['token'], new Key(GetJWTSecret::getJWTSecret(), 'HS256'));
                     if($decodedToken)
                     {
