@@ -10,13 +10,11 @@ class Task
     private int $user_id;
     private bool $completed;
 
-    public function __construct(int $id, string $title, string $description, int $user_id, bool $completed)
+    public function __construct(string $title, string $description, int $user_id)
     {
-        $this->id = $id;
         $this->title = $title;
         $this->description = $description;
         $this->user_id = $user_id;
-        $this->completed = $completed;
     }
 
     public function getId(): int
@@ -24,6 +22,10 @@ class Task
         return $this->id;
     }
 
+    public function setId(int $id) : void
+    {
+        $this->id = $id;
+    }
     public function getTitle(): string
     {
         return $this->title;
@@ -37,5 +39,15 @@ class Task
     public function getUserId(): int
     {
         return $this->user_id;
+    }
+
+    public function isCompleted(): bool
+    {
+        return $this->completed;
+    }
+
+    public function setCompleted(bool $completed): void
+    {
+        $this->completed = $completed;
     }
 }

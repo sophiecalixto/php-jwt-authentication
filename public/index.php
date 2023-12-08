@@ -5,6 +5,10 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $method = $_SERVER['REQUEST_METHOD'];
 $pathInfo = $_SERVER['PATH_INFO'] ?? '/';
 
+if(!$pathInfo || !$method) {
+    http_response_code(404);
+}
+
 $routes = require __DIR__ . '/../src/Routes/routes.php';
 
 foreach ($routes[$method] as $route => $controllerAction) {
@@ -19,6 +23,3 @@ foreach ($routes[$method] as $route => $controllerAction) {
 }
 
 $routes[$method][$pathInfo]();
-
-
-http_response_code(404);

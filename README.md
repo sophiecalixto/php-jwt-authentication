@@ -49,4 +49,34 @@ In Register use this JSON format:
 }
 ```
 
+In Login use this JSON format:
+
+```json
+{
+    "email": "sophiecalixto2004@gmail.com",
+    "password": "123456"
+}
+```
+
+**If login successful and returns a token, store this and pass in new requests**
+
 ![img.png](project-images/img.png)
+
+### Tasks
+
+| Method | Endpoint   | Description       |
+|--------|------------|-------------------|
+| POST   | /tasks     | Create a new task |
+| GET    | /tasks     | List all tasks    |
+| GET    | /task/{id} | Return task by id |
+| PUT    | /task/{id} | Update task       |
+| DELETE | /task/{id} | Delete task       |
+
+* PUT JSON FORMAT
+
+```json
+{
+    "title": "New project title",
+    "description": "New project Description"
+}
+```

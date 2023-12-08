@@ -7,12 +7,13 @@ return [
         '/tasks' => 'SophieCalixto\JWTAuthAPI\Controller\TaskController::store'
     ],
     'GET' => [
-        '/tasks' => 'SophieCalixto\JWTAuthAPI\Controller\TaskController::index'
+        '/tasks' => 'SophieCalixto\JWTAuthAPI\Controller\TaskController::index',
+        '/task/{id}' => 'SophieCalixto\JWTAuthAPI\Controller\TaskController::byId'
     ],
     'PUT' => [
-        '/tasks/{id}' => 'SophieCalixto\JWTAuthAPI\Controller\TaskController::update'
+        '/task/{id}' => 'SophieCalixto\JWTAuthAPI\Controller\TaskController::update'
     ],
     'DELETE' => [
-        '/tasks/{id}' => 'SophieCalixto\JWTAuthAPI\Controller\TaskController::destroy'
+        '/task/{id}' => 'SophieCalixto\JWTAuthAPI\Controller\TaskController::destroy'
     ]
 ];
