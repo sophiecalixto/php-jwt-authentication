@@ -14,3 +14,10 @@ composer install
 ```bash
 php -S localhost:8000 -t public/
 ```
+
+> If you using postgresql, you can use migrations to create tables
+
+```bash
+composer migration-users
+composer migration-tasks
+```
