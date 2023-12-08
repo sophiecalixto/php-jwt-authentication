@@ -6,10 +6,24 @@ use SophieCalixto\JWTAuthAPI\Database\PDOConnection;
 
 class RegisterController
 {
-    public static function register()
+    public static function register(): void
     {
         $pdo = PDOConnection::getConnection();
         $query = $pdo->prepare('INSERT INTO users (name, email, password) VALUES (:name, :email, :password)');
+        // verifica se o email já existe
+        $verifyEmail = $pdo->prepare('SELECT * FROM users WHERE email = :email');
+        $verifyEmail->execute([
+            'email' => $_POST['email']
+        ]);
+        if($verifyEmail->rowCount() > 0)
+        {
+            echo json_encode([
+                'message' => 'Email ja cadastrado!'
+            ]);
+            http_response_code(400);
+            exit();
+        }
+
         if($query->execute([
             'name' => $_POST['name'],
             'email' => $_POST['email'],

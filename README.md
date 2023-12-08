@@ -18,8 +18,9 @@ php -S localhost:8000 -t public/
 > If you using postgresql, you can use migrations to create tables
 
 ```bash
-composer migration-users
+composer migration-tokens
 composer migration-tasks
+composer migration-users
 ```
 
 ## Request methods

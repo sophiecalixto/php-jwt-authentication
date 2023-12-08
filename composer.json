@@ -15,9 +15,11 @@
   },
   "scripts": {
     "migration-users": "php .\\src\\Database\\migrations\\create-users-table.php",
-    "migration-tasks": "php .\\src\\Database\\migrations\\create-tasks-table.php"
+    "migration-tasks": "php .\\src\\Database\\migrations\\create-tasks-table.php",
+    "migration-tokens": "php .\\src\\Database\\migrations\\create-tokens-table.php"
   },
   "require": {
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "firebase/php-jwt": "^6.10"
   }
 }
