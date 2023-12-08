@@ -21,3 +21,24 @@ php -S localhost:8000 -t public/
 composer migration-users
 composer migration-tasks
 ```
+
+## Request methods
+
+### User
+
+| Method | Endpoint  | Description |
+| ------ |-----------| ------ |
+| POST | /register | Create a new user |
+| POST | /login    | Login user |
+
+In Register use this JSON format:
+
+```json
+{
+    "name": "Sophie Calixto",
+    "email": "sophiecalixto2004@gmail.com",
+    "password": "123456"
+}
+```
+
+![img.png](project-images/img.png)

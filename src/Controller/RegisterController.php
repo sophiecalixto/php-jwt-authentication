@@ -16,12 +16,16 @@ class RegisterController
             'password' => password_hash($_POST['password'], PASSWORD_ARGON2ID)
         ]))
         {
-            echo 'Usuário cadastrado com sucesso!';
+            echo json_encode([
+                'message' => 'Usuario cadastrado com sucesso!'
+            ]);
             http_response_code(201);
         }
         else
         {
-            echo 'Erro ao cadastrar usuário!';
+            echo json_encode([
+                'message' => 'Erro ao cadastrar usuario!'
+            ]);
             http_response_code(500);
         }
     }

@@ -15,10 +15,10 @@ foreach ($routes[$method] as $route => $controllerAction) {
         list($controller, $action) = explode('::', $controllerAction);
         call_user_func_array([new $controller, $action], $matches);
         exit();
-    } else {
-        $controllerAction();
-        exit();
     }
 }
+
+$routes[$method][$pathInfo]();
+
 
 http_response_code(404);
