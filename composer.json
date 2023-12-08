@@ -14,9 +14,12 @@
     }
   },
   "scripts": {
-    "migration-users": "php .\\src\\Database\\migrations\\create-users-table.php",
-    "migration-tasks": "php .\\src\\Database\\migrations\\create-tasks-table.php",
-    "migration-tokens": "php .\\src\\Database\\migrations\\create-tokens-table.php"
+    "migration-users": "php src/Database/migrations/create-users-table.php",
+    "migration-tasks": "php src/Database/migrations/create-tasks-table.php",
+    "migration-tokens": "php src/Database/migrations/create-tokens-table.php",
+    "migration-users-win": "php .\\src\\Database\\migrations\\create-users-table.php",
+    "migration-tasks-win": "php .\\src\\Database\\migrations\\create-tasks-table.php",
+    "migration-tokens-win": "php .\\src\\Database\\migrations\\create-tokens-table.php"
   },
   "require": {
     "ext-pdo": "*",

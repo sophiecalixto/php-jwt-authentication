@@ -17,10 +17,17 @@ php -S localhost:8000 -t public/
 
 > If you using postgresql, you can use migrations to create tables
 
+@Windows
 ```bash
-composer migration-tokens
-composer migration-tasks
+composer migration-tokens-win
+composer migration-tasks-win
+composer migration-users-win
+```
+@LInux
+```bash
 composer migration-users
+composer migration-tasks
+composer migration-tokens
 ```
 
 ## Request methods
