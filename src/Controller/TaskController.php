@@ -2,10 +2,7 @@
 
 namespace SophieCalixto\JWTAuthAPI\Controller;
 
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 use SophieCalixto\JWTAuthAPI\Database\PDOConnection;
-use SophieCalixto\JWTAuthAPI\Model\Task;
 
 class TaskController
 {
