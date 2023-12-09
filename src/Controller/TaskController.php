@@ -172,6 +172,43 @@ class TaskController
 
     public static function destroy(int $id)
     {
-        echo 'destroy' . $id;
+        if(!ValidateJWT::validateExists())
+        {
+            return;
+        }
+
+        $token = $_SERVER['HTTP_AUTHORIZATION'];
+        $token = str_replace('Bearer ', '', $token);
+        $token = ValidateJWT::validate($token);
+        $pdo = PDOConnection::getConnection();
+
+        $secureKey = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+        if ($token) {
+            $query = $pdo->prepare('DELETE FROM tasks WHERE id = :id');
+            if ($query->execute([
+                'id' => $secureKey
+            ])
+            ) {
+                echo json_encode(
+                    [
+                        "success" => "Tarefa deletada com sucesso!"
+                    ]
+                );
+            } else {
+                echo json_encode([
+                    'error' => 'Erro ao deletar tarefa no banco de dados!'
+                ]);
+                http_response_code(401);
+            }
+        } else {
+            {
+                echo json_encode([
+                    'error' => 'Token invalido!'
+                ]);
+                http_response_code(401);
+            }
+        }
     }
+
+
 }
