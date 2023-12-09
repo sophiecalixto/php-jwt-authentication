@@ -11,21 +11,15 @@ class TaskController
 {
     public static function index()
     {
-        if (!isset($_SERVER['HTTP_AUTHORIZATION'])) {
-            echo json_encode([
-                'error' => 'Token nao informado!'
-            ]);
-            http_response_code(401);
-            return;
-        }
+        ValidateJWT::validateExists();
+
         $token = $_SERVER['HTTP_AUTHORIZATION'];
         $token = str_replace('Bearer ', '', $token);
         $pdo = PDOConnection::getConnection();
+        $token = ValidateJWT::validate($token);
 
         if ($token) {
-            $key = GetJWTSecret::getJWTSecret();
-            $decodedToken = JWT::decode($token, new Key($key, 'HS256'));
-            $id = $decodedToken->sub;
+            $id = $token->sub;
             $query = $pdo->prepare('SELECT * FROM tasks WHERE user_id = :user_id');
             $query->execute([
                 'user_id' => $id
@@ -49,69 +43,55 @@ class TaskController
 
     public static function byId(int $id)
     {
-        if (!isset($_SERVER['HTTP_AUTHORIZATION'])) {
-            echo json_encode([
-                'error' => 'Token nao informado!'
-            ]);
-            http_response_code(401);
-            return;
-        }
+        ValidateJWT::validateExists();
+
         $token = $_SERVER['HTTP_AUTHORIZATION'];
         $token = str_replace('Bearer ', '', $token);
+        $token = ValidateJWT::validate($token);
         $pdo = PDOConnection::getConnection();
 
-        if ($token && $id) {
-            $key = GetJWTSecret::getJWTSecret();
-            $secureKey = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
-            if (JWT::decode($token, new Key($key, 'HS256'))) {
-                $query = $pdo->prepare('SELECT * FROM tasks WHERE id = :id');
-                if ($query->execute([
-                    'id' => $secureKey
-                ])
-                ) {
-                    $task = $query->fetch(\PDO::FETCH_ASSOC);
-                    echo json_encode(
-                        [
-                            "id" => $task['id'],
-                            "title" => $task['title'],
-                            "description" => $task['description']
-                        ]
-                    );
-                } else {
-                    echo json_encode([
-                        'error' => 'Erro ao procurar por dado no banco de dados!'
-                    ]);
-                    http_response_code(401);
-                }
+        $secureKey = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+        if ($token) {
+            $query = $pdo->prepare('SELECT * FROM tasks WHERE id = :id');
+            if ($query->execute([
+                'id' => $secureKey
+            ])
+            ) {
+                $task = $query->fetch(\PDO::FETCH_ASSOC);
+                echo json_encode(
+                    [
+                        "id" => $task['id'],
+                        "title" => $task['title'],
+                        "description" => $task['description']
+                    ]
+                );
             } else {
-                {
-                    echo json_encode([
-                        'error' => 'Token invalido!'
-                    ]);
-                    http_response_code(401);
-                }
+                echo json_encode([
+                    'error' => 'Erro ao procurar por dado no banco de dados!'
+                ]);
+                http_response_code(401);
+            }
+        } else {
+            {
+                echo json_encode([
+                    'error' => 'Token invalido!'
+                ]);
+                http_response_code(401);
             }
         }
     }
 
     public static function store()
     {
-        if (!isset($_SERVER['HTTP_AUTHORIZATION'])) {
-            echo json_encode([
-                'error' => 'Token nao informado!'
-            ]);
-            http_response_code(401);
-            return;
-        }
+        ValidateJWT::validateExists();
 
         $token = $_SERVER['HTTP_AUTHORIZATION'];
         $token = str_replace('Bearer ', '', $token);
+        $token = ValidateJWT::validate($token);
         $pdo = PDOConnection::getConnection();
 
         if ($token && $_POST['title'] && $_POST['description']) {
-            $key = GetJWTSecret::getJWTSecret();
-            $decodedToken = JWT::decode($token, new Key($key, 'HS256'));
-            $id = $decodedToken->sub;
+            $id = $token->sub;
             $query = $pdo->prepare('INSERT INTO tasks (title, description, user_id) VALUES (:title, :description, :user_id)');
             if ($query->execute([
                 'title' => $_POST['title'],
