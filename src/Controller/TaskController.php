@@ -32,7 +32,8 @@ class TaskController
                     return [
                         "id" => $task['id'],
                         "title" => $task['title'],
-                        "description" => $task['description']
+                        "description" => $task['description'],
+                        "completed" => $task['completed']
                     ];
                 }, $query->fetchAll(\PDO::FETCH_ASSOC))
             );
@@ -68,7 +69,8 @@ class TaskController
                     [
                         "id" => $task['id'],
                         "title" => $task['title'],
-                        "description" => $task['description']
+                        "description" => $task['description'],
+                        "completed" => $task['completed']
                     ]
                 );
             } else {
@@ -141,11 +143,12 @@ class TaskController
         $inputData = json_decode($inputJSON, true);
 
         $secureKey = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
-        if ($token && isset($inputData['title']) && isset($inputData['description'])) {
-            $query = $pdo->prepare('UPDATE tasks SET title = :title, description = :description WHERE id = :id');
+        if ($token && isset($inputData['title']) && isset($inputData['description']) && isset($inputData['completed'])) {
+            $query = $pdo->prepare('UPDATE tasks SET title = :title, description = :description, completed = :completed WHERE id = :id');
             if ($query->execute([
                 'title' => $inputData['title'],
                 'description' => $inputData['description'],
+                'completed' => $inputData['completed'],
                 'id' => $secureKey
             ])
             ) {
