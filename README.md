@@ -39,23 +39,19 @@ composer migration-tokens
 | POST | /register | Create a new user |
 | POST | /login    | Login user |
 
-In Register use this JSON format:
+In Register use this BODY format:
 
-```json
-{
+```php
     "name": "Sophie Calixto",
     "email": "sophiecalixto2004@gmail.com",
     "password": "123456"
-}
 ```
 
-In Login use this JSON format:
+In Login use this BODY format:
 
-```json
-{
+```php
     "email": "sophiecalixto2004@gmail.com",
     "password": "123456"
-}
 ```
 
 **If login successful and returns a token, store this and pass in new requests**
@@ -77,6 +73,7 @@ In Login use this JSON format:
 ```json
 {
     "title": "New project title",
-    "description": "New project Description"
+    "description": "New project Description",
+    "completed": true
 }
 ```
