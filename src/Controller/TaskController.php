@@ -11,7 +11,10 @@ class TaskController
 {
     public static function index()
     {
-        ValidateJWT::validateExists();
+        if(!ValidateJWT::validateExists())
+        {
+            return;
+        }
 
         $token = $_SERVER['HTTP_AUTHORIZATION'];
         $token = str_replace('Bearer ', '', $token);
@@ -43,7 +46,10 @@ class TaskController
 
     public static function byId(int $id)
     {
-        ValidateJWT::validateExists();
+        if(!ValidateJWT::validateExists())
+        {
+            return;
+        }
 
         $token = $_SERVER['HTTP_AUTHORIZATION'];
         $token = str_replace('Bearer ', '', $token);
@@ -83,7 +89,10 @@ class TaskController
 
     public static function store()
     {
-        ValidateJWT::validateExists();
+        if(!ValidateJWT::validateExists())
+        {
+            return;
+        }
 
         $token = $_SERVER['HTTP_AUTHORIZATION'];
         $token = str_replace('Bearer ', '', $token);
