@@ -127,7 +127,47 @@ class TaskController
 
     public static function update(int $id)
     {
-        echo 'update' . $id;
+        if(!ValidateJWT::validateExists())
+        {
+            return;
+        }
+
+        $token = $_SERVER['HTTP_AUTHORIZATION'];
+        $token = str_replace('Bearer ', '', $token);
+        $token = ValidateJWT::validate($token);
+        $pdo = PDOConnection::getConnection();
+
+        $inputJSON = file_get_contents("php://input");
+        $inputData = json_decode($inputJSON, true);
+
+        $secureKey = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+        if ($token && isset($inputData['title']) && isset($inputData['description'])) {
+            $query = $pdo->prepare('UPDATE tasks SET title = :title, description = :description WHERE id = :id');
+            if ($query->execute([
+                'title' => $inputData['title'],
+                'description' => $inputData['description'],
+                'id' => $secureKey
+            ])
+            ) {
+                echo json_encode(
+                    [
+                        "success" => "Tarefa atualizada com sucesso!"
+                    ]
+                );
+            } else {
+                echo json_encode([
+                    'error' => 'Erro ao atualizar tarefa no banco de dados!'
+                ]);
+                http_response_code(401);
+            }
+        } else {
+            {
+                echo json_encode([
+                    'error' => 'Token invalido!'
+                ]);
+                http_response_code(401);
+            }
+        }
     }
 
     public static function destroy(int $id)
